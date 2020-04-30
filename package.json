@@ -1,0 +1,19 @@
+{
+  "name": "online-tutors-api",
+  "version": "1.0.0",
+  "description": "An API for Online Tutors",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hybee22/online-tutors-api.git"
+  },
+  "author": "Ibrahim Adekunle",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Hybee22/online-tutors-api/issues"
+  },
+  "homepage": "https://github.com/Hybee22/online-tutors-api#readme"
+}
