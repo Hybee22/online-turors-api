@@ -66,6 +66,8 @@ const userSchema = new mongoose.Schema(
     }
 )
 
+userSchema.index({ firstName: "text" })
+
 userSchema.pre('save', async function(next) {
     // If password was modified
     if (!this.isModified('password')) return next()

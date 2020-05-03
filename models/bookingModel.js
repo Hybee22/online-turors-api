@@ -9,11 +9,12 @@ const bookingSchema = mongoose.Schema(
         },
         user: {
             type: mongoose.Schema.ObjectId,
-            ref: 'User'
+            ref: 'User',
+            required: [true, 'Booking requires a user ID']
         },
         createdAt: {
             type: Date,
-            default: Date.now()
+            default: Date.now
         }
     }, 
     {
