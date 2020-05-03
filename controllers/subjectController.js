@@ -35,11 +35,13 @@ exports.getSubject = catchAsync( async (req, res, next) =>  {
     if (req.params.categoryId) filter = { category: req.params.categoryId }
     else filter = { _id: req.params.id }
 
-    const features = new APIFeatures(Subject.find(filter).populate({
+    const features = new APIFeatures(Subject.find(filter)
+       .populate({
                 path: 'tutors',
                 select: 'username email'
-            }).select('-__v'), req.query)
-    .sort()
+            })
+      .select('-__v'), req.query)
+      .sort()
 
     const subject = await features.query
   

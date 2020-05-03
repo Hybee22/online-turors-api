@@ -12,27 +12,13 @@ const subjectSchema = mongoose.Schema(
                 type: mongoose.Schema.ObjectId,
                 ref: 'User'
             }
-        ]
+        ], 
     }, 
     {
         toJSON: { virtuals: true },
         toObject: { virtuals: true }
     }
 )
-
-subjectSchema.virtual('booking', {
-    ref: 'User',
-    foreignField: 'subject',
-    localField: 'booking'
-  })
-
-//   subjectSchema.pre(/^find/, function(next) {
-//     this.populate({
-//         path: 'tutors',
-//         select: 'username email'
-//     })
-//     next()
-// })
 
 subjectSchema.index({ category: 1 })
 subjectSchema.index({ name: "text" })
