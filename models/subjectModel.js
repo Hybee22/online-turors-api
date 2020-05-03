@@ -6,7 +6,13 @@ const subjectSchema = mongoose.Schema(
         category: {
             type: mongoose.Schema.ObjectId,
             ref: 'Category'
-        }
+        },
+        tutors: [
+            {
+                type: mongoose.Schema.ObjectId,
+                ref: 'User'
+            }
+        ]
     }, 
     {
         toJSON: { virtuals: true },
@@ -14,18 +20,22 @@ const subjectSchema = mongoose.Schema(
     }
 )
 
+subjectSchema.virtual('booking', {
+    ref: 'User',
+    foreignField: 'subject',
+    localField: 'booking'
+  })
+
+//   subjectSchema.pre(/^find/, function(next) {
+//     this.populate({
+//         path: 'tutors',
+//         select: 'username email'
+//     })
+//     next()
+// })
+
 subjectSchema.index({ category: 1 })
-
-// QUERY MIDDLEWARE
-
-subjectSchema.pre(/^find/, function(next) {
-    //Populates just the category document
-    this.populate({ 
-        path: 'category',
-        select: 'name'
-    })
-    next()
-})
+subjectSchema.index({ name: "text" })
 
 const Subject = mongoose.model('Subject', subjectSchema)
 
