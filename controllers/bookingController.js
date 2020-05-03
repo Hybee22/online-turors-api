@@ -1,5 +1,6 @@
 const Booking = require('../models/bookingModel')
 const catchAsync = require('../utils/catchAsync')
+const APIFeatures = require('../utils/apiFeatures')
 
 exports.getAllBookings = catchAsync( async (req, res, next) => {
 
@@ -35,7 +36,7 @@ exports.getBooking = catchAsync( async (req, res, next) =>  {
     if (req.params.bookingId) filter = { category: req.params.bookingId }
 
 
-    const features = new APIFeatures(Subject.find(filter).select('-__v'), req.query)
+    const features = new APIFeatures(Booking.find(filter).select('-__v'), req.query)
     .sort()
 
     const booking = await features.query

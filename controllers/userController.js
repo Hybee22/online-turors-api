@@ -23,12 +23,13 @@ exports.getAllUsers = catchAsync( async (req, res, next) => {
 })
 
 exports.searchTutors = catchAsync( async (req, res, next) => {
-    let filter = { }
+    let filter = {  }
     // 1. SEARCHING
     if (req.query.search) {
         const searchString = req.query.search.split(',').join(' ')
         filter = ({ role: 'tutor', $text: { $search: searchString }})
-    } else {
+    } 
+    else {
         return next(
             new AppError('This route can only take search parameters', 400)
         )
@@ -48,7 +49,7 @@ exports.searchTutors = catchAsync( async (req, res, next) => {
 
 exports.getTutors = catchAsync( async (req, res, next) => {
 
-    const tutors = await User.find({}).select('_id username firstName lastName email')
+    const tutors = await User.find({ role: 'tutor' }).select('_id username firstName lastName email')
 
     // SEND RESPONSE
     res.status(200).json({

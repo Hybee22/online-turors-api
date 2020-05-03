@@ -7,14 +7,27 @@ const bookingSchema = mongoose.Schema(
             ref: 'Subject',
             required: [ true, 'You must add a subject before booking' ]
         },
-        user: {
+        student: {
             type: mongoose.Schema.ObjectId,
             ref: 'User',
             required: [true, 'Booking requires a user ID']
         },
+        tutor: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'User',
+            required: [true, 'Booking requires a user ID']
+        },
+        startDate: {
+            type: Date,
+            default: Date.now 
+        },
         createdAt: {
             type: Date,
             default: Date.now
+        },
+        fulfilled: {
+            type: Boolean,
+            default: false
         }
     }, 
     {
@@ -29,7 +42,10 @@ bookingSchema.pre(/^find/, function(next) {
         path: 'subject',
         select: 'name'
     }).populate({
-        path: 'user',
+        path: 'student',
+        select: 'username email'
+    }).populate({
+        path: 'tutor',
         select: 'username email'
     })
 
