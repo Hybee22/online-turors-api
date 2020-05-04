@@ -5,10 +5,6 @@ const registerSubjectSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'User'
     },
-    category: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Category'
-    },
     subject: 
         {
             type: mongoose.Schema.ObjectId,
