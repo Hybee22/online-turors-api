@@ -22,16 +22,11 @@ exports.registerSubject = catchAsync( async (req, res, next) => {
 // 
 
 exports.getAllRegisteredSubject = catchAsync( async (req, res, next) => {
-    const registered = await RegisterSubject.find({ registered: true }).populate({
+    console.log("I GOT HERE")
+    const registered = await RegisterSubject.find().populate({
         path: 'subject',
         select: '-__v -category'
     }).select('-registered -tutor -user -category -__v')
-
-    // let subjects = []
-
-    // for (let i = 0; i < registered.length; i++) {
-    //     subjects.push(registered[i].subject)
-    // }
 
     res.status(200).json({
         status: 'success',
@@ -41,10 +36,29 @@ exports.getAllRegisteredSubject = catchAsync( async (req, res, next) => {
     })
 })
 
-// .select('-registered -user -category -__v')
+exports.getRegisteredSubject = catchAsync( async (req, res, next) => {
+    const subject = await RegisterSubject.findById(req.params.id)
+    .select('-registered -createdAt -category')
+    .populate({
+        path: 'subject',
+        select: '-__v -category'
+    })
+    if (!subject) {
+        return next(
+            new AppError('No document with this ID found', 404)
+        )
+    }
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            data: subject
+        }
+    })
+})
 
 exports.updateRegisteredSubject = catchAsync( async (req, res, next) => {
-    const updatedDoc = await RegisterSubject.findByIdAndUpdate(req.params.id, req.body)
+    const updatedDoc = await RegisterSubject.findByIdAndUpdate(req.params.id, req.body, { new: true })
 
     if (!updatedDoc) {
         return next(

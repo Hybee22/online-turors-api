@@ -107,7 +107,7 @@ exports.deleteSubject = catchAsync( async (req, res, next) => {
 exports.getTutors = catchAsync( async (req, res, next) => {
     const subject = await Subject.findById(req.params.subjectId).populate({
       path: 'tutors',
-      select: '-role -createdAt -__v'
+      select: '-role -createdAt -__v -registered -category'
     })
 
     if (!subject) {
