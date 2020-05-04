@@ -37,7 +37,7 @@ exports.getBooking = catchAsync( async (req, res, next) =>  {
 
     let filter = {}
 
-    if (req.params.bookingId) filter = { category: req.params.bookingId }
+    if (req.params.bookingId) filter = { id: req.params.bookingId }
 
 
     const features = new APIFeatures(Booking.find(filter)
