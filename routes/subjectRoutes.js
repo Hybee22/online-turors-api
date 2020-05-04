@@ -3,44 +3,64 @@ const router = express.Router();
 
 const authController = require('../controllers/authController');
 const subjectController = require('../controllers/subjectController');
+// Routes merged to registerSubject
+const registerSubjectRoutes = require('../routes/registerSubjectRoutes')
 
-// CATEGORY ROUTES
-
-// Protect Routes
-router.use(authController.protect)
+// SUBJECT ROUTES
 
 router
     .route('/')
-    .get(subjectController.getAllSubjects)
+    .get(
+        authController.protect, 
+        subjectController.getAllSubjects
+    )
 
 router
     .route('/:id')
-    .get(subjectController.getSubject)
+    .get(
+        authController.protect, 
+        authController.restrictTo('admin'), 
+        subjectController.getSubject
+)
 
 router
     .route('/:categoryId/all')
-    .get(subjectController.getSubject)
+    .get(
+        authController.protect, 
+        subjectController.getSubject
+    )
     
 router
     .route('/:subjectId/tutors')
-    .get(authController.restrictTo('student'), subjectController.getTutors )
-
-// Restrict to Admins
-router.use(authController.restrictTo('admin'))
+    .get(
+        authController.protect,
+        authController.restrictTo('student'), 
+        subjectController.getTutors
+    )
 
 router
     .route('/')
-    .post(subjectController.createSubject)
+    .post(
+        authController.protect, 
+        authController.restrictTo('admin'), 
+        subjectController.createSubject
+    )
 
 router
     .route('/:id')
-    .patch(subjectController.updateSubject)
-    .delete(subjectController.deleteSubject)
+    .patch(
+        authController.protect, 
+        authController.restrictTo('admin'), 
+        subjectController.updateSubject
+    )
+    .delete(
+        authController.protect, 
+        authController.restrictTo('admin'), 
+        subjectController.deleteSubject
+    )
     
-    
-// router
-//     .route('/:userId/registered')
-//     .get( authController.protect, authController.restrictTo('tutor'), subjectController.getRegisteredSubjects )
-    
+
+router.use('/', registerSubjectRoutes)
+
 
 module.exports = router;

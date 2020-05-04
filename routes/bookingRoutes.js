@@ -19,7 +19,7 @@ router.use(authController.restrictTo('admin'))
 
 router
     .route('/')
-    .get(authController.restrictTo('admin'), bookingController.getAllBookings)
+    .get(bookingController.getAllBookings)
 
 router
     .route('/:id')

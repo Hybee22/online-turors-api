@@ -9,15 +9,15 @@ router.use(authController.protect)
 router.use(authController.restrictTo('tutor'))
 
 router
-    .route('/tutor/')
+    .route('/tutor/register')
     .post(registerSubjectController.registerSubject )
 
 router  
-    .route('/tutor/subjects')
+    .route('/registered')
     .get(registerSubjectController.getAllRegisteredSubject)
 
 router  
-    .route('/tutor/subjects/:id')
+    .route('/registered/:id')
     .patch(registerSubjectController.updateRegisteredSubject)
     .delete(registerSubjectController.deleteRegisteredSubject)
 
