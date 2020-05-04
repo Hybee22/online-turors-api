@@ -4,8 +4,12 @@ const APIFeatures = require('../utils/apiFeatures')
 
 exports.getAllBookings = catchAsync( async (req, res, next) => {
 
-    const features = new APIFeatures(Booking.find(), req.query)
-        .sort()
+    const features = new APIFeatures(Booking.find()    
+      .populate({
+        path: 'subject',
+        select: 'name'
+      }), req.query)
+      .sort()
 
     const bookings = await features.query
 
@@ -36,7 +40,12 @@ exports.getBooking = catchAsync( async (req, res, next) =>  {
     if (req.params.bookingId) filter = { category: req.params.bookingId }
 
 
-    const features = new APIFeatures(Booking.find(filter).select('-__v'), req.query)
+    const features = new APIFeatures(Booking.find(filter)
+    .populate({
+      path: 'subject',
+      select: 'name'
+    })
+    .select('-__v'), req.query)
     .sort()
 
     const booking = await features.query

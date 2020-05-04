@@ -11,10 +11,9 @@ exports.getAllSubjects = catchAsync( async (req, res, next) => {
     if (req.query.search) {
         const searchString = req.query.search.split(',').join(' ')
         filter = ({ $text: { $search: searchString }})
-
     }
 
-    const features = new APIFeatures(Subject.find(filter), req.query)
+    const features = new APIFeatures(Subject.find(filter).select('-__v'), req.query)
         .sort()
 
     const subjects = await features.query
@@ -36,10 +35,13 @@ exports.getSubject = catchAsync( async (req, res, next) =>  {
     else filter = { _id: req.params.id }
 
     const features = new APIFeatures(Subject.find(filter)
-       .populate({
-                path: 'tutors',
-                select: 'username email'
-            })
+      .populate({
+        path: 'tutors',
+        select: '-registered -__v -category -createdAt'
+      })
+      .populate({
+        path: 'lessons'
+      })
       .select('-__v'), req.query)
       .sort()
 
@@ -69,6 +71,7 @@ exports.createSubject = catchAsync( async (req, res, next) => {
 })
 
 exports.updateSubject = catchAsync( async (req, res, next) => {
+
     const subject = await Subject.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true
@@ -102,14 +105,16 @@ exports.deleteSubject = catchAsync( async (req, res, next) => {
 })
 
 exports.getTutors = catchAsync( async (req, res, next) => {
-    const subject = await Subject.findById(req.params.subjectId)
+    const subject = await Subject.findById(req.params.subjectId).populate({
+      path: 'tutors',
+      select: '-role -createdAt -__v'
+    })
 
     if (!subject) {
         return next(
             new AppError('No document with this ID found', 404)
         )
     }
-
     const tutors = subject.tutors
 
     res.status(200).json({
@@ -120,35 +125,3 @@ exports.getTutors = catchAsync( async (req, res, next) => {
     })
 
 })
-
-// exports.getRegisteredSubjects = catchAsync( async (req, res, next) => {
-//     let id;
-//     if (req.user.id === req.params.userId) {
-//         id = req.user.id; 
-//     }
-//     else {
-//         return next(new AppError('Invalid User ID', 400))
-//     }
-    
-//     const subjects = await Subject.find()
-
-//     const registered = subjects.forEach((sub, index) => {
-//         if (sub.tutors[index].id === id) {
-//             if (sub.tutors.filter(tutor => {
-//                 tutor.id === id !== null
-//                 return console.log({
-//                     _id: sub._id,
-//                     name: sub.name,
-//                     category: sub.category
-//                 }) 
-//             })) ;
-//         }
-//     })  
-
-//     res.status(200).json({
-//         status: 'success',
-//         data: {
-//             data: registered
-//         }
-//     })
-// })
