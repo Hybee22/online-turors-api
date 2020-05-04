@@ -21,6 +21,19 @@ router
     .route('/:id')
     .get(categoryController.getCategory)
 
+router  
+    .route('/:id/subjects')
+    .get(categoryController.getSubjects)
+
+// categories/primary/all/subjects
+// categories/jss
+// categories/sss
+    
+router  
+    .route('/:name/all/subjects')
+    .get(categoryController.getSubjectsByCategory)
+    
+
 // Restrict to Admins
 router.use(authController.restrictTo('admin'))
 
