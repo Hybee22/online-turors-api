@@ -22,13 +22,6 @@ router
         authController.restrictTo('admin'), 
         subjectController.getSubject
 )
-
-router
-    .route('/:categoryId/all')
-    .get(
-        authController.protect, 
-        subjectController.getSubject
-    )
     
 router
     .route('/:subjectId/tutors')

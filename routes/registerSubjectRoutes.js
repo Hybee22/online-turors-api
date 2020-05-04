@@ -4,21 +4,19 @@ const router = express.Router({ mergeParams: true });
 const authController = require('../controllers/authController');
 const registerSubjectController = require('../controllers/registerSubjectController');
 
-// Protect Routes
-router.use(authController.protect)
-router.use(authController.restrictTo('tutor'))
+router  
+    .route('/registered/all')
+    .get(authController.protect, authController.restrictTo('tutor'), registerSubjectController.getAllRegisteredSubject)
 
 router
     .route('/tutor/register')
-    .post(registerSubjectController.registerSubject )
+    .post(authController.protect, authController.restrictTo('tutor'), registerSubjectController.registerSubject)
 
-router  
-    .route('/registered')
-    .get(registerSubjectController.getAllRegisteredSubject)
 
 router  
     .route('/registered/:id')
-    .patch(registerSubjectController.updateRegisteredSubject)
-    .delete(registerSubjectController.deleteRegisteredSubject)
+    .get(authController.protect, authController.restrictTo('tutor'), registerSubjectController.getRegisteredSubject)
+    .patch(authController.protect, authController.restrictTo('tutor'), registerSubjectController.updateRegisteredSubject)
+    .delete(authController.protect, authController.restrictTo('tutor'), registerSubjectController.deleteRegisteredSubject)
 
 module.exports = router
