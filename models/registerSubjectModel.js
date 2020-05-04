@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const registerSubjectSchema = new mongoose.Schema({
-    user: {
+    tutor: {
         type: mongoose.Schema.ObjectId,
         ref: 'User'
     },
@@ -18,6 +18,10 @@ const registerSubjectSchema = new mongoose.Schema({
     registered: {
         type: Boolean,
         default: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
 }, 
 {
@@ -28,8 +32,8 @@ const registerSubjectSchema = new mongoose.Schema({
 // QUERY MIDDLEWARE
 registerSubjectSchema.pre(/^find/, function(next) {
     this.populate({
-        path: 'subject',
-        select: 'name'
+        path: 'tutor',
+        select: 'username'
     })
     next()
 })
