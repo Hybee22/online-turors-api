@@ -2,17 +2,21 @@ const mongoose = require('mongoose')
 
 const subjectSchema = mongoose.Schema(
     {
-        name: String,
+        name: {
+            type: String,
+            required: [true, 'A subject must have a name'],
+            lowercase: true
+        },
         category: {
             type: mongoose.Schema.ObjectId,
             ref: 'Category'
         },
-        tutors: [
-            {
-                type: mongoose.Schema.ObjectId,
-                ref: 'User'
-            }
-        ], 
+        // tutors: [
+        //     {
+        //         type: mongoose.Schema.ObjectId,
+        //         ref: 'RegisterSubject'
+        //     }
+        // ], 
     }, 
     {
         toJSON: { virtuals: true },
@@ -22,6 +26,18 @@ const subjectSchema = mongoose.Schema(
 
 subjectSchema.index({ category: 1 })
 subjectSchema.index({ name: "text" })
+
+subjectSchema.virtual('tutors', {
+    ref: 'RegisterSubject',
+    foreignField: 'subject',
+    localField: '_id'
+  })
+
+subjectSchema.virtual('lessons', {
+    ref: 'Booking',
+    foreignField: 'subject',
+    localField: '_id'
+  })
 
 const Subject = mongoose.model('Subject', subjectSchema)
 

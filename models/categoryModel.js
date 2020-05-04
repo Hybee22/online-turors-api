@@ -4,8 +4,8 @@ const categorySchema = mongoose.Schema(
     {
         name: {
             type: String,
-            enum: ['Primary','JSS', 'SSS'],
-            unique: true
+            unique: true,
+            lowercase: true
         }
     }, 
     {
@@ -19,14 +19,6 @@ categorySchema.virtual('subjects', {
     foreignField: 'category',
     localField: '_id'
   })
-
-categorySchema.pre(/^find/, function(next) {
-    this.populate({
-        path: 'subjects',
-        select: '-__v'
-    })
-    next()
-})
 
 const Category = mongoose.model('Category', categorySchema)
 

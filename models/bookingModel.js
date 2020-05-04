@@ -2,32 +2,33 @@ const mongoose = require('mongoose')
 
 const bookingSchema = mongoose.Schema(
     {
+        user: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'User',
+            required: [true, 'Booking requires a user ID']
+        },
         subject: {
             type: mongoose.Schema.ObjectId,
             ref: 'Subject',
             required: [ true, 'You must add a subject before booking' ]
         },
-        student: {
-            type: mongoose.Schema.ObjectId,
-            ref: 'User',
-            required: [true, 'Booking requires a user ID']
-        },
-        tutor: {
-            type: mongoose.Schema.ObjectId,
-            ref: 'User',
-            required: [true, 'Booking requires a user ID']
-        },
-        startDate: {
-            type: Date,
-            default: Date.now 
-        },
-        createdAt: {
-            type: Date,
-            default: Date.now
+        reserved:             {
+            from: {
+                type: Date,
+                required: true
+            },
+            to: {
+                type: Date,
+                required: true
+            }
         },
         fulfilled: {
             type: Boolean,
             default: false
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now
         }
     }, 
     {
@@ -39,15 +40,11 @@ const bookingSchema = mongoose.Schema(
 
 bookingSchema.pre(/^find/, function(next) {
     this.populate({
-        path: 'subject',
-        select: 'name'
-    }).populate({
-        path: 'student',
-        select: 'username email'
-    }).populate({
-        path: 'tutor',
+        path: 'user',
         select: 'username email'
     })
+
+    this.select('-createdAt -__v -fulfilled -reserved')
 
     next()
 })
