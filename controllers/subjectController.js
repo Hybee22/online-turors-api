@@ -40,8 +40,12 @@ exports.getSubject = catchAsync( async (req, res, next) =>  {
         select: '-registered -__v -category -createdAt'
       })
       .populate({
-        path: 'lessons'
+        path: 'lessons',
       })
+      .populate({
+        path: 'category',
+        select: 'name'
+    })
       .select('-__v'), req.query)
       .sort()
 

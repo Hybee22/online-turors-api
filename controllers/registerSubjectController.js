@@ -24,8 +24,13 @@ exports.registerSubject = catchAsync( async (req, res, next) => {
 exports.getAllRegisteredSubject = catchAsync( async (req, res, next) => {
     const registered = await RegisterSubject.find().populate({
         path: 'subject',
-        select: '-__v'
-    }).select('-registered -createdAt -user -__v')
+        select: '-__v -category'
+    })
+    .populate({
+        path: 'category',
+        select: 'name'
+    })
+    .select('-registered -createdAt -user -__v')
 
     res.status(200).json({
         status: 'success',
@@ -40,7 +45,11 @@ exports.getRegisteredSubject = catchAsync( async (req, res, next) => {
     .select('-registered -createdAt -__v')
     .populate({
         path: 'subject',
-        select: '-__v'
+        select: '-__v -category'
+    })
+    .populate({
+        path: 'category',
+        select: 'name'
     })
     if (!subject) {
         return next(

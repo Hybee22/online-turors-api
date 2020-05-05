@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const bookingSchema = mongoose.Schema(
     {
-        user: {
+        student: {
             type: mongoose.Schema.ObjectId,
             ref: 'User',
             required: [true, 'Booking requires a user ID']
