@@ -5,12 +5,14 @@ const registerSubjectSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'User'
     },
-    subject: 
-        {
-            type: mongoose.Schema.ObjectId,
-            ref: 'Subject'
-        }
-    ,
+    category: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Category'
+    },
+    subject: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Subject'
+    },
     registered: {
         type: Boolean,
         default: true
