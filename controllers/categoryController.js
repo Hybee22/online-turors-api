@@ -23,7 +23,7 @@ exports.getCategory = catchAsync( async (req, res, next) =>  {
     })
   
     if (!category) {
-      return next(new AppError('No document with that ID not found', 404))
+      return next(new AppError('No document with that ID found', 404))
     }
   
     res.status(200).json({
@@ -39,10 +39,10 @@ exports.getSubjects = catchAsync( async (req, res, next) =>  {
     const subjects = await Category.findById(req.params.id).populate({
       path: 'subjects',
       select: '-__v -tutors'
-    }).select('-__v')
+    }).select('-__v -name')
   
     if (!subjects) {
-      return next(new AppError('No document with that ID not found', 404))
+      return next(new AppError('No document with that ID found', 404))
     }
   
     res.status(200).json({
@@ -62,10 +62,10 @@ exports.getSubjectsByCategory = catchAsync( async (req, res, next) =>  {
     const subjects = await Category.find(filter).populate({
       path: 'subjects',
       select: '-__v -tutors'
-    }).select('-__v')
+    }).select('-__v -name')
   
     if (!subjects) {
-      return next(new AppError('No document with that ID not found', 404))
+      return next(new AppError('No document with that ID found', 404))
     }
   
     res.status(200).json({

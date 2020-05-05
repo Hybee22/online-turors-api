@@ -9,14 +9,9 @@ const subjectSchema = mongoose.Schema(
         },
         category: {
             type: mongoose.Schema.ObjectId,
+            required: [true, 'A subject must belong to a category'],
             ref: 'Category'
         },
-        // tutors: [
-        //     {
-        //         type: mongoose.Schema.ObjectId,
-        //         ref: 'RegisterSubject'
-        //     }
-        // ], 
     }, 
     {
         toJSON: { virtuals: true },

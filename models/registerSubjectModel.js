@@ -31,7 +31,7 @@ const registerSubjectSchema = new mongoose.Schema({
 registerSubjectSchema.pre(/^find/, function(next) {
     this.populate({
         path: 'tutor',
-        select: 'username'
+        select: 'username email'
     })
     next()
 })

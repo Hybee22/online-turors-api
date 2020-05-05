@@ -39,10 +39,10 @@ const bookingSchema = mongoose.Schema(
 )
 
 bookingSchema.pre(/^find/, function(next) {
-    this.populate({
-        path: 'user',
-        select: 'username email'
-    })
+    // this.populate({
+    //     path: 'student',
+    //     select: 'username email'
+    // })
 
     this.select('-createdAt -__v -fulfilled -reserved')
 

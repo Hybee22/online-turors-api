@@ -8,9 +8,6 @@ exports.getAllBookings = catchAsync( async (req, res, next) => {
       .populate({
         path: 'subject',
         select: 'name'
-      }).populate({
-        path: 'student',
-        select: 'username email'
       }), req.query)
       .sort()
 
