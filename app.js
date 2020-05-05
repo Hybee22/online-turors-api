@@ -45,14 +45,12 @@ if (process.env.NODE_ENV === 'development') {
  const subjectRouter = require('./routes/subjectRoutes');
  const categoryRouter = require('./routes/categoryRoutes');
  const bookingRouter = require('./routes/bookingRoutes');
- const registerSubjectRouter = require('./routes/registerSubjectRoutes');
 
 // Routes Middlewares
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/categories', categoryRouter);
 app.use('/api/v1/subjects', subjectRouter);
 app.use('/api/v1/bookings', bookingRouter);
-app.use('/api/v1/register', registerSubjectRouter);
 
 // Unhandles Routes
 app.all('*', (req, res, next) => {

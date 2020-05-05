@@ -119,12 +119,17 @@ exports.getTutors = catchAsync( async (req, res, next) => {
             new AppError('No document with this ID found', 404)
         )
     }
-    const tutors = subject.tutors
+    
+    let subjectTutors = [];
+    const { tutors } = subject
+    tutors.forEach(tutor => {
+      return subjectTutors.push(tutor.tutor)
+    })
 
     res.status(200).json({
         status: 'success',
         data: {
-            data: tutors
+            data: subjectTutors
         }
     })
 

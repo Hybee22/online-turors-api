@@ -22,20 +22,21 @@ exports.registerSubject = catchAsync( async (req, res, next) => {
 // 
 
 exports.getAllRegisteredSubject = catchAsync( async (req, res, next) => {
-    const registered = await RegisterSubject.find().populate({
+    const registered = await RegisterSubject.find({ tutor: req.user.id }).populate({
         path: 'subject',
-        select: '-__v -category'
+        select: '-__v'
     })
-    .populate({
-        path: 'category',
-        select: 'name'
+    .select('-registered -tutor -createdAt -user -__v')
+    
+    let registeredSubject = [];
+    registered.forEach(el => {
+      return registeredSubject.push(el.subject)
     })
-    .select('-registered -createdAt -user -__v')
 
     res.status(200).json({
         status: 'success',
         data: {
-            data: registered
+            data: registeredSubject
         }
     })
 })
