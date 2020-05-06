@@ -68,6 +68,12 @@ const userSchema = new mongoose.Schema(
 
 userSchema.index({ firstName: "text" })
 
+userSchema.virtual('lessons', {
+    ref: 'Booking',
+    foreignField: 'student',
+    localField: '_id'
+})
+
 userSchema.pre('save', async function(next) {
     // If password was modified
     if (!this.isModified('password')) return next()

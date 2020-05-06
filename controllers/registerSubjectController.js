@@ -1,5 +1,5 @@
 const RegisterSubject = require('../models/registerSubjectModel')
-const Subject = require('../models/subjectModel')
+// const Subject = require('../models/subjectModel')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
 

@@ -22,6 +22,25 @@ exports.getAllUsers = catchAsync( async (req, res, next) => {
     });
 })
 
+exports.getUser = catchAsync( async (req, res, next) => {
+
+    const features = new APIFeatures(User.findById(req.params.id).populate({
+        path: 'lessons'
+    }).select('username firstName lastName email'), req.query)
+      .sort()
+  
+    // EXECUTE QUERY
+    const user = await features.query;
+  
+    // SEND RESPONSE
+    res.status(200).json({
+      status: 'success',
+      data: {
+        data: user
+      }
+    });
+})
+
 exports.searchTutors = catchAsync( async (req, res, next) => {
     let filter = {  }
     // 1. SEARCHING
