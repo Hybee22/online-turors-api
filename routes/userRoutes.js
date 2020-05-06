@@ -24,6 +24,10 @@ router
     .get(userController.getAllUsers)
 
 router
+    .route('/:id')
+    .get(userController.getUser)
+
+router
     .route('/tutors/all')
     .get(userController.getTutors)
 

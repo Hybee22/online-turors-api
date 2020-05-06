@@ -5,6 +5,7 @@ const rateLimit = require('express-rate-limit')
 const mongoSanitize = require('express-mongo-sanitize')
 const xss = require('xss-clean')
 const cors = require('cors')
+const cookieParser = require('cookie-parser')
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -28,6 +29,8 @@ app.use('/api', limiter)
 
 // Body Parser -> Reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
+//  Cookie Parser
+app.use(cookieParser())
 
 // Data sanitize against NoSQL Query Injection
 app.use(mongoSanitize()) // Checks the request headers, query strings, params for malicious codes

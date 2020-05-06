@@ -28,11 +28,11 @@ subjectSchema.virtual('tutors', {
     localField: '_id'
   })
 
-subjectSchema.virtual('lessons', {
-    ref: 'Booking',
-    foreignField: 'subject',
-    localField: '_id'
-  })
+// subjectSchema.virtual('lessons', {
+//     ref: 'Booking',
+//     foreignField: 'subject',
+//     localField: '_id'
+//   })
 
 const Subject = mongoose.model('Subject', subjectSchema)
 
