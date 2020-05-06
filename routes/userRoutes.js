@@ -5,34 +5,26 @@ const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
 
 // AUTH ROUTES
-router.post('/signup', authController.signup)
-router.post('/login', authController.login)
+router.post('/signup', authController.signup);
+router.post('/login', authController.login);
 
 // Protect Routes
-router.use(authController.protect)
+router.use(authController.protect);
 
 // USER ROUTES
+router.route('/tutors').get(userController.searchTutors);
+
 router
-    .route('/tutors')
-    .get(userController.searchTutors)
+  .route('/tutors/:id/deactivate')
+  .patch(authController.restrictTo('admin'), userController.deactivate);
 
 // Restrict to Admins
-router.use(authController.restrictTo('admin'))
+router.use(authController.restrictTo('admin', 'tutor', 'student'));
 
-router
-    .route('/')
-    .get(userController.getAllUsers)
+router.route('/').get(userController.getAllUsers);
 
-router
-    .route('/:id')
-    .get(userController.getUser)
+router.route('/:id').get(userController.getUser);
 
-router
-    .route('/tutors/all')
-    .get(userController.getTutors)
-
-router
-    .route('/tutors/:id/deactivate')
-    .patch(userController.deactivate)
+router.route('/tutors/all').get(userController.getTutors);
 
 module.exports = router;

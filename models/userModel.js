@@ -74,6 +74,12 @@ userSchema.virtual('lessons', {
     localField: '_id'
 })
 
+userSchema.virtual('subjects', {
+    ref: 'RegisterSubject',
+    foreignField: 'tutor',
+    localField: '_id'
+})
+
 userSchema.pre('save', async function(next) {
     // If password was modified
     if (!this.isModified('password')) return next()
