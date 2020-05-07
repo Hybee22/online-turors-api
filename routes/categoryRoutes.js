@@ -11,39 +11,31 @@ const authController = require('../controllers/authController');
 // CATEGORY ROUTES
 
 // Protect Routes
-router.use(authController.protect)
+router.use(authController.protect);
+
+router.route('/').get(categoryController.getAllCategories);
+
+router.route('/:id').get(categoryController.getCategory);
+
+router.route('/:name/subjects/:subjectId').get(categoryController.getSubject);
+router
+  .route('/:name/subjects/:subjectId')
+  .patch(categoryController.updateSubject);
+router
+  .route('/:name/subjects/:subjectId')
+  .delete(categoryController.deleteSubject);
 
 router
-    .route('/')
-    .get(categoryController.getAllCategories)
-
-router  
-    .route('/:id')
-    .get(categoryController.getCategory)
-
-router  
-    .route('/:id/subjects')
-    .get(categoryController.getSubjects)
-
-// categories/primary/all/subjects
-// categories/jss
-// categories/sss
-    
-router  
-    .route('/:name/all/subjects')
-    .get(categoryController.getSubjectsByCategory)
-    
+  .route('/:name/all/subjects')
+  .get(categoryController.getSubjectsByCategory);
 
 // Restrict to Admins
-router.use(authController.restrictTo('admin'))
+router.use(authController.restrictTo('admin'));
 
+router.route('/').post(categoryController.createCategory);
 router
-    .route('/')
-    .post(categoryController.createCategory)
-router  
-    .route('/:id')
-    .patch(categoryController.updateCategory)
-    .delete(categoryController.deleteCategory)
-
+  .route('/:id')
+  .patch(categoryController.updateCategory)
+  .delete(categoryController.deleteCategory);
 
 module.exports = router;

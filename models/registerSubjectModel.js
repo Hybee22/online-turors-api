@@ -34,10 +34,15 @@ registerSubjectSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'subject',
     select: 'name',
-  }).populate({
-    path: 'category',
-    select: 'name',
-  });
+  })
+    .populate({
+      path: 'category',
+      select: 'name',
+    })
+    .populate({
+      path: 'tutor',
+      select: 'username email',
+    });
   next();
 });
 
