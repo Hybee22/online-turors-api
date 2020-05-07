@@ -12,7 +12,7 @@ _Request header:_ `Authorization: Bearer {token}`
 
 #### AUTHENTICATION
 
-- **SIGN UP**
+- **SIGN UP - STUDENT**
 
   - _URL:_ `/users/signup`
   - _method:_ `POST`
@@ -42,7 +42,41 @@ _Request header:_ `Authorization: Bearer {token}`
         email: "",
         password: "",
         passwordConfirm: "",
-        role: ['student', 'tutor']
+    }
+    ```
+
+---
+
+- **SIGN UP - TUTOR**
+
+  - _URL:_ `/users/signup/tutor`
+  - _method:_ `POST`
+  - _Success Response_
+
+    - _Status code_ `200 Success`
+    - _Content_
+
+    ```
+    {
+        status: 'success',
+        token,
+        data: {
+            user
+        }
+    }
+
+    ```
+
+  - _Request Example_
+    - _Required fields:_ `all fields required`
+    ```
+    {
+        username: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        passwordConfirm: "",
     }
     ```
 
@@ -245,10 +279,10 @@ _Request header:_ `Authorization: Bearer {token}`
 
 ---
 
-- **GET SUBJECTS BY CATEGORY ID**
-  - _URL:_ `/categories/:id/subjects`
+- **GET SUBJECT IN A CATEGORY BY ID**
+  - _URL:_ `/categories/:name/subjects/:subjectId`
   - _method:_ `GET`
-  - _params:_ `id`
+  - _params:_ `name subjectId`
   - _Success Response_
     - _Status code_ `200 Success`
     - _Content_
@@ -259,9 +293,63 @@ _Request header:_ `Authorization: Bearer {token}`
             data: [
                 {
                     "_id": "",
-                    "subjects": []
+                    "name": "...",
+                    "category": "..."
                 }
             ]
+        }
+    }
+    ```
+    - _Error Response_
+    - _Status code_ `404 Not Found`
+
+---
+
+- **UPDATE SUBJECT IN A CATEGORY BY ID**
+  - _URL:_ `/categories/:name/subjects/:subjectId`
+  - _method:_ `PATCH`
+  - _params:_ `name subjectId`
+  - _Success Response_
+    - _Status code_ `200 Success`
+    - _Content_
+    ```
+    {
+        status: 'success',
+        data: {
+            data: [
+                {
+                    "_id": "",
+                    "name": "...",
+                    "category": "..."
+                }
+            ]
+        }
+    }
+    ```
+    - _Request Example_
+    - _Required fields:_ `field required`
+    ```
+    {
+        name: ""
+    }
+    ```
+    - _Error Response_
+    - _Status code_ `404 Not Found`
+
+---
+
+- **DELETE SUBJECT IN A CATEGORY BY ID**
+  - _URL:_ `/categories/:name/subjects/:subjectId`
+  - _method:_ `DELETE`
+  - _params:_ `name subjectId`
+  - _Success Response_
+    - _Status code_ `204 No Content`
+    - _Content_
+    ```
+    {
+        status: 'success',
+        data: {
+            data: null
         }
     }
     ```
@@ -912,6 +1000,7 @@ _Request header:_ `Authorization: Bearer {token}`
         }
     }
     ```
+    ***
 - **DEACTIVATE TUTOR BY ID**
   - _URL:_ `/users/tutors/:id/deactivate`
   - _method:_ `PATCH`
@@ -922,7 +1011,31 @@ _Request header:_ `Authorization: Bearer {token}`
     ```
     {
         status: 'success',
-        results: number of items,
         data: null
+    }
+    ```
+
+---
+
+- **MAKE TUTOR ADMIN**
+  - _URL:_ `/users/tutors/:id/make-admin`
+  - _method:_ `PATCH`
+  - _params:_ `id`
+  - _Success Response_
+    - _Status code_ `200 Success`
+    - _Content_
+    ```
+    {
+        status: 'success',
+        data: {
+            data: {
+                "_id": "...",
+                "username": "...",
+                "firstName": "...",
+                "lastName": "...",
+                "role": "admin",
+                "email": "...",
+            }
+        }
     }
     ```
