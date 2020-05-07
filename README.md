@@ -5,6 +5,7 @@
 _This is an API for an online platform that connects students around the world with qualified tutors to provide quality learning sessions_
 
 _Current version:_ `v1.0`
+_baseURL:_ `https://online-tutors-api.herokuapp.com`
 _URL:_ `{baseURL}/api/v1/`
 _Request header:_ `Authorization: Bearer {token}`
 _Admin Log:_ `admin1@tutors.io: test1234`
