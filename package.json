@@ -4,7 +4,8 @@
   "description": "An API for Online Tutors",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "NODE_ENV=production server.js",
+    "start:dev": "nodemon server.js"
   },
   "repository": {
     "type": "git",
