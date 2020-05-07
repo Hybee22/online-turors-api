@@ -6,7 +6,10 @@ const APIFeatures = require('../utils/apiFeatures');
 exports.getAllUsers = catchAsync(async (req, res, next) => {
   let filter = {};
 
-  const features = new APIFeatures(User.find(filter), req.query).sort();
+  const features = new APIFeatures(
+    User.find(filter).select('username firstName lastName email role'),
+    req.query
+  ).sort();
 
   // EXECUTE QUERY
   const users = await features.query;
@@ -82,9 +85,12 @@ exports.searchTutors = catchAsync(async (req, res, next) => {
     );
   }
 
-  const tutors = await User.find(filter).select(
-    '_id username firstName lastName email'
-  );
+  const features = new APIFeatures(
+    User.find(filter).select('_id username firstName lastName email'),
+    req.query
+  ).sort();
+
+  const tutors = await features.query;
 
   // SEND RESPONSE
   res.status(200).json({
@@ -125,6 +131,27 @@ exports.deactivate = catchAsync(async (req, res, next) => {
   }
   // SEND RESPONSE
   res.status(204).json({
+    status: 'success',
+    data: {
+      data: user,
+    },
+  });
+});
+
+// Make Admin
+exports.makeAdmin = catchAsync(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(
+    req.params.id,
+    { role: 'admin' },
+    { new: true }
+  );
+
+  if (!user) {
+    return next(new AppError('No document with that ID found', 404));
+  }
+
+  // SEND RESPONSE
+  res.status(200).json({
     status: 'success',
     data: {
       data: user,

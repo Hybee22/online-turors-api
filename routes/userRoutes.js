@@ -6,6 +6,7 @@ const authController = require('../controllers/authController');
 
 // AUTH ROUTES
 router.post('/signup', authController.signup);
+router.post('/signup/tutor', authController.signupTutor);
 router.post('/login', authController.login);
 
 // Protect Routes
@@ -17,6 +18,10 @@ router.route('/tutors').get(userController.searchTutors);
 router
   .route('/tutors/:id/deactivate')
   .patch(authController.restrictTo('admin'), userController.deactivate);
+
+router
+  .route('/tutors/:id/make-admin')
+  .patch(authController.restrictTo('admin'), userController.makeAdmin);
 
 // Restrict to Admins
 router.use(authController.restrictTo('admin', 'tutor', 'student'));

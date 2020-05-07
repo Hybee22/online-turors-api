@@ -1,25 +1,33 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const Subject = require('./subjectModel');
 
 const categorySchema = mongoose.Schema(
-    {
-        name: {
-            type: String,
-            unique: true,
-            lowercase: true
-        }
-    }, 
-    {
-        toJSON: { virtuals: true },
-        toObject: { virtuals: true }
-    }
-)
+  {
+    name: {
+      type: String,
+      unique: true,
+      lowercase: true,
+    },
+  },
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
 
 categorySchema.virtual('subjects', {
-    ref: 'Subject',
-    foreignField: 'category',
-    localField: '_id'
-  })
+  ref: 'Subject',
+  foreignField: 'category',
+  localField: '_id',
+});
 
-const Category = mongoose.model('Category', categorySchema)
+// categorySchema.pre(/^delete/, async function (next) {
+//   console.log(this._id);
+//   await Subject.deleteMany({ category: this._id });
 
-module.exports = Category
+//   next();
+// });
+
+const Category = mongoose.model('Category', categorySchema);
+
+module.exports = Category;
